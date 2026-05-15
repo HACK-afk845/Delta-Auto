@@ -7,7 +7,7 @@ local Title = Instance.new("TextLabel")
 
 ScreenGui.Parent = game:GetService("CoreGui")
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 MainFrame.Position = UDim2.new(0.5, -100, 0.5, -75)
 MainFrame.Size = UDim2.new(0, 200, 0, 150)
 MainFrame.Active = true
@@ -15,56 +15,30 @@ MainFrame.Draggable = true
 
 Title.Parent = MainFrame
 Title.Size = UDim2.new(1, 0, 0, 30)
-Title.Text = "Auto Chat Pro"
+Title.Text = "AUTO CHAT V3"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 
 TextBox.Parent = MainFrame
-TextBox.PlaceholderText = "Type message here..."
+TextBox.PlaceholderText = "Type Message..."
 TextBox.Position = UDim2.new(0.1, 0, 0.3, 0)
 TextBox.Size = UDim2.new(0.8, 0, 0, 35)
 TextBox.Text = ""
 
 StartButton.Parent = MainFrame
 StartButton.Text = "START"
-StartButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+StartButton.BackgroundColor3 = Color3.fromRGB(0, 160, 0)
 StartButton.Position = UDim2.new(0.1, 0, 0.65, 0)
 StartButton.Size = UDim2.new(0.35, 0, 0, 35)
 
 StopButton.Parent = MainFrame
 StopButton.Text = "STOP"
-StopButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+StopButton.BackgroundColor3 = Color3.fromRGB(160, 0, 0)
 StopButton.Position = UDim2.new(0.55, 0, 0.65, 0)
 StopButton.Size = UDim2.new(0.35, 0, 0, 35)
 
 local running = false
 
-local function SendMsg(msg)
-    -- System 1: New Chat
-    local tcs = game:GetService("TextChatService")
-    if tcs.ChatVersion == Enum.ChatVersion.TextChatService then
-        local channel = tcs.TextChannels:FindFirstChild("RBXGeneral")
-        if channel then channel:SendAsync(msg) end
-    end
-    -- System 2: Old Chat
-    local remote = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
-    if remote then
-        remote.SayMessageRequest:FireServer(msg, "All")
-    end
-end
-
-StartButton.MouseButton1Click:Connect(function()
-    if running then return end
-    running = true
-    while running do
-        if TextBox.Text ~= "" then
-            SendMsg(TextBox.Text)
-        end
-        task.wait(3)
-    end
-end)
-
-StopButton.MouseButton1Click:Connect(function()
-    running = false
-end)
-
+-- This function sends the message to the ACTUAL Game Chat
+local function GlobalSend(msg)
+    -- System 1: New Roblox
